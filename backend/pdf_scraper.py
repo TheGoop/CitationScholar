@@ -1,6 +1,3 @@
-#from refextract import extract_references_from_file
-from PyPDF2 import PdfFileReader
-
 from pdfminer import high_level
 
 

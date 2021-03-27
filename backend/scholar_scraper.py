@@ -22,14 +22,6 @@ def query_scholar(keywords, mock=True):
                 + '&as_sdt=0%2C5'
                 + '&btnG='
                 + f'&q={keywords}') # keyword search
-                # + '&as_epq=%(phrase)' # phrase search
-                # + '&as_oq=%(words_some)'
-                # + '&as_eq=%(words_none)'
-                # + '&as_sauthors=%(authors)' # author search
-                # + '&as_publication=%(pub)' # pub
-                # + '&as_ylo=%(ylo)'
-                # + '&as_yhi=%(yhi)'
-                # + '&as_vis=%(citations)'
 
         return client.get(query_url).text
 

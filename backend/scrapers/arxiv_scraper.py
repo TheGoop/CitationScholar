@@ -10,14 +10,18 @@ class ArxivScraper(Scraper):
     def findPaper(self, citation):
         url = ('http://export.arxiv.org/api/query?'
                 + f'search_query={citation}'
-                + '&start=0&max_results=1')
-        results = feedparser.parse(url).entries
+                + '&start=0&max_results=10')
+        papers = feedparser.parse(url).entries
 
-        if len(results) == 0:
-            return None
+        for paper in papers:
+            if not hasattr(paper, 'links'):
+                continue
+            for link in paper.links:
+                if link.type == 'application/pdf':
+                    return link.href
 
-        return results[0]
+        return None
 
 
 if __name__ == '__main__':
-    print(ArxivScraper().findPaper('dijkstra'))
+    print(ArxivScraper().findPaper('Electron'))

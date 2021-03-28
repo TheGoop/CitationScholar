@@ -64,8 +64,8 @@ const Search = () => {
             // FETCH LINK HERE
             console.log(NEWGET)
             makePost()
-            setTimeout(function(){ setLoading("finished"); }, 2000);
-
+            setTimeout(function(){ setLoading("finished"); }, 2);
+            ///TIMEOUT TEST
         }
     }, [loading])
 

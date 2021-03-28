@@ -9,7 +9,7 @@ class ArxivScraper(Scraper):
 
     def findPaper(self, citation):
         url = ('http://export.arxiv.org/api/query?'
-                + f'search_query={citation}'
+                + 'search_query=' + citation.get_title().replace(" ", "\\ ")
                 + '&start=0&max_results=10')
         papers = feedparser.parse(url).entries
 

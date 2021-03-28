@@ -52,10 +52,15 @@ const Search = () => {
     };
 
     async function makePost() {
-      axios.get(`http://127.0.0.1:5000/`, NEWGET).then(function (response) {
-        setSources(response.data);
-        setLoading("finished");
-      });
+      console.log(NEWGET)
+      axios.put(`http://127.0.0.1:5000/graph`, NEWGET)
+        .then(function (response) {
+          setSources(response.data);
+          setLoading("finished");
+          console.log(response.data)
+        })
+        .catch(function (error) { console.log(error.response.data) });
+
     }
 
     if (loading === "wait") {

@@ -8,6 +8,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
+
 @app.route("/")
 def index():
     return jsonify(
@@ -15,10 +16,12 @@ def index():
         + " of topics covered in complex papers.")
 
 
-@app.route("/graph", methods=['GET'])
+@app.route("/graph", methods=['PUT'])
 def graph():
+    #print(request.values)
+    #print(request.args)
     body = request.json
-
+    #print(body)
     if not body:
         return Response(" { 'Result' : 'Error, No Json Body Given' } ",
                         status=400,

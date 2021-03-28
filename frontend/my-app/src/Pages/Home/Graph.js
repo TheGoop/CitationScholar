@@ -2,7 +2,8 @@ import React from "react";
 import { runForceGraph } from "./Graphrun";
 import "./Graph.css";
 
-export function ForceGraph({data}) {
+export function ForceGraph({ data }) {
+  console.log(data)
   const containerRef = React.useRef(null);
 
   React.useEffect(() => {

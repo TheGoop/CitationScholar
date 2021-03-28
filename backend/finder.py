@@ -11,7 +11,7 @@ class Finder():
                 raise ValueError(f"'{scraper}' is not a supported scraper.")
             self.scrapers.append(keyword_map[scraper]())
 
-    def findPaper(citation):
+    def findPaper(self, citation):
         """Given a citation, return a PDF link to its corresponding paper.
 
         For now, `citation` is a keyword that arXiv can search by. In the

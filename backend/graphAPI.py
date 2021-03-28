@@ -23,7 +23,7 @@ def createDependencyGraph(body):
         return None, 4
     root_node = PaperNode("Queried Paper", link, pdf_hash)
     try:
-        citation_ordered_list, graph = create_dependency_graph(root_node, initial_references, finder)
+        citation_ordered_list, graph = create_dependency_graph(root_node, initial_references, 2021, finder)
     except ValueError:
         return None, 5
     payload = {}
@@ -33,7 +33,7 @@ def createDependencyGraph(body):
     return payload, 0
 
 def _extract_node_info_from_node_list(node_list):
-    return [{"id": node.id, "link": node.link} for node in node_list]
+    return [{"id": node.id, "link": node.link, "year": node.year} for node in node_list]
 
 def _extract_edges_from_graph(graph):
     return [{"source": parent.id, "target": child.id} for parent in graph for child in graph[parent]]

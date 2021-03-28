@@ -28,7 +28,7 @@ def create_dependency_graph(root_node, citations, finder):
         except ConnectionError:
             continue
 
-        curr_node = PaperNode(curr_citation.get_title(), citation_link, pdf_hash)
+        curr_node = PaperNode(curr_citation.get_title(), citation_link, curr_citation.get_year(), pdf_hash)
         for citation in _append_parent_to_citations(curr_node, reference_list):
             citation_stack.put(citation)
 

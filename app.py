@@ -20,8 +20,8 @@ def graph():
     if not body:
         return Response(" { 'Result' : 'Error, No Json Body Given' } ", status=400, mimetype='application/json')
 
-    if 'input' not in body:
-        return Response(" { 'Result' : 'Error, Json Body must contain paper input' } ", status=400,
+    if 'input' not in body or 'valid' not in body:
+        return Response(" { 'Result' : 'Error, Json Body must contain paper input and valid input' } ", status=400,
                         mimetype='application/json')
 
     payload, status = graphAPI.createDependencyGraph(body)

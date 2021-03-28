@@ -5,9 +5,7 @@ from backend.CitationAlgorithm import create_dependency_graph
 
 def createDependencyGraph(body):
     scrapers = []
-    for key in body:
-        if key == 'input':
-            continue
+    for key in body['valid']:
         scrapers.append(key)
     link = body['input']
     try:

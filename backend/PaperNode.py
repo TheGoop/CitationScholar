@@ -1,7 +1,4 @@
 class PaperNode:
-    citation = None
-    pdf_hash = None
-
     def __init__(self, citation, pdf_hash):
         if not citation or not pdf_hash:
             return ValueError("Citation and pdf_hash must not be empty")

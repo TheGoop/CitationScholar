@@ -1,4 +1,5 @@
 from backend.scrapers import *
+from backend.scrapers.arxiv_scraper import ArxivScraper
 
 class Finder():
     def __init__(self, scrapers):

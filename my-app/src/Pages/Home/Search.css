@@ -33,7 +33,7 @@ input:placeholder {
     width: 35%;
     height: 35%;
     display: block;
-    margin-left: auto;
+    margin-left: 33vw;
     margin-right: auto;
     margin-top: 10vh;
 }
@@ -44,6 +44,12 @@ input:placeholder {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+#loading {
+    position: fixed;
+    left: 47vw;
+    margin-top: 2%;
 }
 
 .button {

@@ -1,6 +1,29 @@
 import * as d3 from "d3";
 import './Graph.css'
 
+const BLUE = "#139FFD";
+const RED = "#e9382e";
+
+function shadeColor(color, percent) {
+
+    var R = parseInt(color.substring(1,3),16);
+    var G = parseInt(color.substring(3,5),16);
+    var B = parseInt(color.substring(5,7),16);
+
+    R = parseInt(R * (100 + percent) / 100);
+    G = parseInt(G * (100 + percent) / 100);
+    B = parseInt(B * (100 + percent) / 100);
+
+    R = (R<255)?R:255;  
+    G = (G<255)?G:255;  
+    B = (B<255)?B:255;  
+
+    var RR = ((R.toString(16).length==1)?"0"+R.toString(16):R.toString(16));
+    var GG = ((G.toString(16).length==1)?"0"+G.toString(16):G.toString(16));
+    var BB = ((B.toString(16).length==1)?"0"+B.toString(16):B.toString(16));
+
+    return "#"+RR+GG+BB;
+}
 
 export function runForceGraph(container, data) {
     const height = 450;
@@ -13,10 +36,13 @@ export function runForceGraph(container, data) {
         .force("link", d3.forceLink(edges).id(d => d.id))
         .force("charge", d3.forceManyBody())
         .force("center", d3.forceCenter(width / 2, height / 2))
-    const color = () => {
-        // const scale = d3.scaleOrdinal(d3.schemeCategory10);
-        // return d => scale(d.group);
-        return "#139FFD";
+        .force("charge", d3.forceManyBody().strength(-800));
+
+    const color = (d) => {
+        if (d.id === "Root"){
+            return RED
+        }
+        return shadeColor(BLUE, (2020 - d.year) * -3.25);
     }
 
     //GROUP IS UNNECESSARY
@@ -66,44 +92,55 @@ export function runForceGraph(container, data) {
         .call(drag(simulation))
         .on("mouseover", mouseover)
         .on("mouseout", mouseout)
+        .on("dblclick", dblclick)
 
     function mouseover() {
+        let item = d3.select(this)
+        item.raise();
         d3.select(this).select("circle").transition()
             .attr("r", 10)
-            .style("fill", "#cf362e");
+            .style("fill", RED);
         d3.select(this).select("text").transition()
-            .style("font", "30px sans-serif")
+            .style("font", "16px Roboto")
             .attr('x', 16)
-            .attr('y', 6);
+            .attr('y', 6)
+            .style('fill','#000000');
     }
 
     function mouseout() {
+        let data = d3.select(this).datum();
+        if (data.id === "Root"){
+            d3.select(this).select("circle").transition()
+            .attr("r", 5)
+            .style("fill", RED);
+        }
+        else{
         d3.select(this).select("circle").transition()
             .attr("r", 5)
-            .style("fill", "#3584d7");
+            .style("fill", shadeColor(BLUE, (2020 - data.year) * -3.25));
+        }
         d3.select(this).select("text").transition()
-            .style("font", "12px sans-serif")
+            .style("font", "8px Roboto")
             .attr('x', 6)
-            .attr('y', 3);
+            .attr('y', 3)
+            .style('fill', '#B1bbc6');
     }
 
-    function click() {
-        d3.select(this).select("circle").transition()
-            .duration(1)
-            .attr("r", 16)
-            .style("fill", "lightsteelblue");
+    function dblclick() {
+        let data = d3.select(this).datum();
+        window.open(data.link);
     }
 
     node.append('circle')
         .attr("r", 5)
-        .attr("fill", "#3584d7")
+        .attr("fill", d => color(d))
 
     node.append("text")
         .text(function (d) {
-            return d.id;
+            return (d.id + ', ' + d.year);
         })
-        .style('fill', '#000')
-        .style('font-size', '12px')
+        .style('fill', '#B1bbc6')
+        .style('font', '8px Roboto')
         .attr('x', 6)
         .attr('y', 3);
 
@@ -120,3 +157,4 @@ export function runForceGraph(container, data) {
 
     return svg.node();
 }
+

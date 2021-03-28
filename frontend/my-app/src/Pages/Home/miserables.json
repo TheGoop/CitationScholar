@@ -1,22 +1,25 @@
 {
   "nodes": [
-    {"id": "Myriel", "link": "http://akshay.us/"},
-    {"id": "Napoleon", "link": "http://akshay.us/"},
-    {"id": "Mlle.Baptistine", "link": "http://akshay.us/"},
-    {"id": "Mme.Magloire", "link": "http://akshay.us/"},
-    {"id": "CountessdeLo", "link": "http://akshay.us/"},
-    {"id": "Geborand", "link": "http://akshay.us/"},
-    {"id": "Champtercier", "link": "http://akshay.us/"},
-    {"id": "Cravatte", "link": "http://akshay.us/"}
+    {"id": "On CNNs", "link": "http://akshay.us/", "year": 1999},
+    {"id": "Batch Normalization", "link": "http://akshay.us/", "year": 1999},
+    {"id": "Linear Regression Models", "link": "http://akshay.us/", "year": 2020},
+    {"id": "Loss", "link": "http://akshay.us/", "year": 2010},
+    {"id": "Upsampling", "link": "http://akshay.us/", "year": 2003},
+    {"id": "Deconvolutional Neural Networks", "link": "http://akshay.us/", "year": 2008},
+    {"id": "Fast Fourier Transform in Sampling", "link": "https://arxiv.org/abs/2004.15004", "year": 2020},
+    {"id": "CNN Explainer: Learning", "link": "https://arxiv.org/abs/2004.15004", "year": 2017},
+    {"id": "Root", "link": "https://arxiv.org/abs/2004.02806", "year": 2020}
   ],
   "edges": [
-    {"source": "Napoleon", "target": "Myriel"},
-    {"source": "Mlle.Baptistine", "target": "Myriel"},
-    {"source": "Mme.Magloire", "target": "Myriel"},
-    {"source": "Mme.Magloire", "target": "Mlle.Baptistine"},
-    {"source": "CountessdeLo", "target": "Myriel"},
-    {"source": "Geborand", "target": "Myriel"},
-    {"source": "Champtercier", "target": "Myriel"}
+    {"source": "Batch Normalization", "target": "On CNNs"},
+    {"source": "Linear Regression Models", "target": "On CNNs"},
+    {"source": "Loss", "target": "On CNNs"},
+    {"source": "Loss", "target": "Linear Regression Models"},
+    {"source": "Upsampling", "target": "On CNNs"},
+    {"source": "Deconvolutional Neural Networks", "target": "On CNNs"},
+    {"source": "Fast Fourier Transform in Sampling", "target": "On CNNs"},
+    {"source": "Linear Regression Models", "target": "CNN Explainer: Learning"},
+    {"source": "Root", "target": "Linear Regression Models"}
   ]
 }
 

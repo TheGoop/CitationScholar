@@ -1,8 +1,9 @@
 import queue
 from graphlib import TopologicalSorter
 from PaperNode import PaperNode
+from citation_scraper import CitationExtractor
 
-def create_dependency_graph(root_node, citations, finder, extractor):
+def create_dependency_graph(root_node, citations, finder):
     graph = {root_node: set()}
     citation_stack = queue.Queue()
     for citation in _append_parent_to_citations(root_node, citations):
@@ -17,7 +18,16 @@ def create_dependency_graph(root_node, citations, finder, extractor):
         citation_link = finder.findPaper(curr_citation)
         if citation_link is None:
             continue
-        reference_list, pdf_hash = extractor.extract_citation(citation_link)
+        try:
+            extractor = CitationExtractor(citation_link)
+            reference_list, pdf_hash = extractor.extract_citation()
+        except ValueError:
+            continue
+        except NotImplementedError:
+            continue
+        except ConnectionError:
+            continue
+
         curr_node = PaperNode(curr_citation, pdf_hash)
         for citation in _append_parent_to_citations(curr_node, reference_list):
             citation_stack.put(citation)

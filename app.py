@@ -21,15 +21,31 @@ def graph():
         return Response(" { 'Result' : 'Error, No Json Body Given' } ", status=400, mimetype='application/json')
 
     if 'input' not in body:
-        return Response(" { 'Result' : 'Error, Json Body must contain paper input' } ", status=400, mimetype='application/json')
+        return Response(" { 'Result' : 'Error, Json Body must contain paper input' } ", status=400,
+                        mimetype='application/json')
 
-    payload, status = graphAPI.createDependencyGraph(body), 0
+    payload, status = graphAPI.createDependencyGraph(body)
 
     if status == 0:
         return jsonify(payload)
+    elif status == 1:
+        return Response(" { 'Result' : 'Error, Invalid scraper received' } ", status=400,
+                        mimetype='application/json')
+    elif status == 2:
+        return Response(" { 'Result' : 'Error parsing link' } ", status=400,
+                        mimetype='application/json')
+    elif status == 3:
+        return Response(" { 'Result' : 'Error, non arxiv link received' } ", status=400,
+                        mimetype='application/json')
+    elif status == 4:
+        return Response(" { 'Result' : 'Error, server connection error' } ", status=400,
+                        mimetype='application/json')
+    elif status == 5:
+        return Response(" { 'Result' : 'Error, unknown error in graph creation' } ", status=400,
+                        mimetype='application/json')
     else:
-        # handle status errors
-        raise NotImplementedError
+        return Response(" { 'Result' : 'Unknown Error' } ", status=400,
+                        mimetype='application/json')
 
 
 if __name__ == '__main__':

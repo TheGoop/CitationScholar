@@ -1,5 +1,6 @@
 from backend.pdf_scraper import PDF
 import requests, json
+import re
 
 
 class Author:
@@ -59,9 +60,11 @@ class Citation:
 
 class CitationExtractor:
     def _extract_id(self):
-        s = "/pdf/"
-        i = self.url.find(s)
-        self.id = self.url[i + len(s):-4]
+
+        self.id = re.findall('[0-9]+.[0-9]+', self.url)[0]
+        #s = "/pdf/"
+        #i = self.url.find(s)
+        #self.id = self.url[i + len(s):-4]
         return self.id
 
     def __init__(self, arxiv_url):

@@ -7,6 +7,8 @@ class Finder():
 
         self.scrapers = []
         for scraper in scrapers:
+            if scraper not in keyword_map:
+                raise ValueError(f"'{scraper}' is not a supported scraper.")
             self.scrapers.append(keyword_map[scraper]())
 
     def findPaper(citation):

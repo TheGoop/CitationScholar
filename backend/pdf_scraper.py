@@ -12,17 +12,16 @@ class PDF():
 
     def _scrape_pdf(self):
         #t = time.time()
-        #make a random UUID that will be the name of the file based on the host ID and current time
-        filename = self._construct_file_name()
-        t1 = time.time()
+        #filename = self._construct_file_name()
+        #t1 = time.time()
         try:
             r = requests.get(self.url, stream=True)
         except:
             raise ValueError
-        t1 = time.time() - t1
-        print("Getting the pdf took: " + str(t1))
+        #t1 = time.time() - t1
+        #print("Getting the pdf took: " + str(t1))
 
-        t2 = time.time()
+        #t2 = time.time()
         chunk_size = 2000
         try:
             chunks = ""
@@ -37,12 +36,12 @@ class PDF():
 
         except:
             raise IOError
-        t2 = time.time() - t2
-        print("Writing the pdf took: " + str(t2))
+        #t2 = time.time() - t2
+        #print("Writing the pdf took: " + str(t2))
 
         #t = time.time() - t
         #print("Scraping the pdf took: " + str(t))
-        return filename
+        #return filename
 
     def _load_pdf(self):
         #t = time.time()

@@ -119,7 +119,7 @@ class CitationExtractor:
         return (self.get_citations(), self.get_hash())
 
 
-#if __name__ == "__main__":
-#    x = CitationExtractor("https://arxiv.org/pdf/1705.10311.pdf")
-#    #print(x.get_raw_citations()[0])
-#    [print(i) for i in x.get_citations()]
+if __name__ == "__main__":
+    x = CitationExtractor("https://arxiv.org/pdf/1705.10311.pdf")
+    #print(x.get_raw_citations()[0])
+    [print(i) for i in x.get_citations()]

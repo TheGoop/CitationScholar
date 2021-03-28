@@ -16,8 +16,12 @@ class Author:
 
 class Citation:
     def _load_authors(self, authors):
-        s = "/pdf/"
-        raise NotImplementedError
+        self.authors = []
+        for a in authors:
+            t = Author(a["name"], a["authorId"])
+            self.authors.append(t)
+        #pass
+        #raise NotImplementedError
 
     def __init__(self, title, authors, doi, year, paper_id, arxiv_id):
         self.title = title
@@ -49,6 +53,9 @@ class Citation:
     def get_url(self):
         return "https://www.semanticscholar.org/paper/" + self.paper_id
 
+    def __repr__(self):
+        return str((self.get_title(), self.get_paper_id()))
+
 
 class CitationExtractor:
     def _extract_id(self):
@@ -75,6 +82,8 @@ class CitationExtractor:
         self._load_raw_citations()
         self._load_citations()
 
+        self.pdf = PDF(self.url)
+
     def _make_request_url(self):
         url = "https://api.semanticscholar.org/v1/paper/arXiv:" + self.id
         return url
@@ -84,7 +93,7 @@ class CitationExtractor:
         try:
             r = requests.get(request_url)
             d = r.json()
-            self.raw_citations = d["citations"]
+            self.raw_citations = d["citations"] + d["references"]
         except:
             raise ConnectionError
 
@@ -92,12 +101,25 @@ class CitationExtractor:
         return self.raw_citations
 
     def _load_citations(self):
-        pass
+        if not self.raw_citations:
+            self.citations = None
+        self.citations = []
+        for cite in self.raw_citations:
+            t = Citation(cite['title'], cite['authors'], cite['doi'],
+                         cite['year'], cite['paperId'], cite['arxivId'])
+            self.citations.append(t)
 
     def get_citations(self):
         return self.citations
 
+    def get_hash(self):
+        return self.pdf.get_hash()
+
+    def extract_citations(self):
+        return (self.get_citations(), self.get_hash())
+
 
 if __name__ == "__main__":
     x = CitationExtractor("https://arxiv.org/pdf/1705.10311.pdf")
-    print(x.get_raw_citations()[0])
+    #print(x.get_raw_citations()[0])
+    [print(i) for i in x.get_citations()]

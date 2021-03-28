@@ -21,9 +21,9 @@ def createDependencyGraph(body):
         return None, 3
     except ConnectionError:
         return None, 4
-    root_node = PaperNode("Queried Paper", link, pdf_hash)
+    root_node = PaperNode("Queried Paper", link, 2021, pdf_hash)
     try:
-        citation_ordered_list, graph = create_dependency_graph(root_node, initial_references, 2021, finder)
+        citation_ordered_list, graph = create_dependency_graph(root_node, initial_references, finder)
     except ValueError:
         return None, 5
     payload = {}

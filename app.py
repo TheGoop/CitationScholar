@@ -1,29 +1,32 @@
 from flask import Flask
 from flask import request
 from flask import jsonify
-from flask import json
 from flask import Response
+from backend import graphAPI
 
 app = Flask(__name__)
 
 
 @app.route("/")
 def index():
-    return jsonify("Hello World!")
+    return jsonify("Welcome to LAOx, a tool for finding sources required to gain a background understanding" +
+                   " of topics covered in complex papers.")
 
 
 @app.route("/graph", methods=['GET'])
 def graph():
-    args = request.args
     body = request.json
 
     if not body:
         return Response(" { 'Result' : 'Error, No Json Body Given' } ", status=400, mimetype='application/json')
 
-    dag, status = None, 0  # scraper.get_dag() or something
+    if 'input' not in body:
+        return Response(" { 'Result' : 'Error, Json Body must contain paper input' } ", status=400, mimetype='application/json')
+
+    payload, status = graphAPI.createDependencyGraph(body), 0
 
     if status == 0:
-        return Response("Here is DAG", status=200, mimetype="application/json")
+        return jsonify(payload)
     else:
         # handle status errors
         raise NotImplementedError

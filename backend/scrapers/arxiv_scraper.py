@@ -9,7 +9,7 @@ class ArxivScraper(Scraper):
 
     def findPaper(self, citation):
         url = ('http://export.arxiv.org/api/query?'
-                + f'search_query={citation}'
+                + 'search_query=' + citation.get_title().replace(" ", "")
                 + '&start=0&max_results=10')
         papers = feedparser.parse(url).entries
 
@@ -18,7 +18,10 @@ class ArxivScraper(Scraper):
                 continue
             for link in paper.links:
                 if link.type == 'application/pdf':
-                    return link.href
+                    link_text = link.href
+                    if link_text[-4] != ".pdf":
+                        link_text += ".pdf"
+                    return link_text
 
         return None
 

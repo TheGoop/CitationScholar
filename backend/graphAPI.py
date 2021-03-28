@@ -2,6 +2,7 @@ from backend.finder import Finder
 from backend.citation_scraper import CitationExtractor
 from backend.PaperNode import PaperNode
 from backend.CitationAlgorithm import create_dependency_graph
+
 def createDependencyGraph(body):
     scrapers = []
     for key in body:
@@ -22,27 +23,25 @@ def createDependencyGraph(body):
         return None, 3
     except ConnectionError:
         return None, 4
-    root_node = PaperNode(link, pdf_hash)
+    root_node = PaperNode("Queried Paper", link, pdf_hash)
     try:
         citation_ordered_list, graph = create_dependency_graph(root_node, initial_references, finder)
     except ValueError:
         return None, 5
     payload = {}
-    payload['ordered_list'] = _extract_citations_from_node_list(citation_ordered_list)
-    payload['graph'] = _extract_citations_from_graph(graph)
+    payload['nodes'] = _extract_node_info_from_node_list(citation_ordered_list)
+    payload['edges'] = _extract_edges_from_graph(graph)
+    payload['ordered'] = _extract_titles_from_node_list(citation_ordered_list)
     return payload, 0
 
-def _extract_citations_from_node_list(node_list):
-    return [node.citation for node in node_list]
+def _extract_node_info_from_node_list(node_list):
+    return [{"id": node.id, "link": node.link} for node in node_list]
 
-def _extract_citations_from_graph(graph):
-    citation_graph = {}
-    for key in graph:
-        citation_graph[key.citation] = set()
-        for item in graph[key]:
-            citation_graph[key.citation].add(item.citation)
-    return citation_graph
+def _extract_edges_from_graph(graph):
+    return [{"source": parent.id, "target": child.id} for parent in graph for child in graph[parent]]
 
+def _extract_titles_from_node_list(node_list):
+    return [node.id for node in node_list]
 
 
 

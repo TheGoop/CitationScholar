@@ -27,19 +27,20 @@ def createDependencyGraph(body):
     except ValueError:
         return None, 5
     payload = {}
-    payload['nodes'] = _extract_node_info_from_node_list(citation_ordered_list)
+    payload['nodes'], payload['ordered'] = _extract_node_info_from_node_list(citation_ordered_list)
     payload['edges'] = _extract_edges_from_graph(graph)
-    payload['ordered'] = _extract_titles_from_node_list(citation_ordered_list)
     return payload, 0
 
 def _extract_node_info_from_node_list(node_list):
-    return [{"id": node.id, "link": node.link, "year": node.year} for node in node_list]
+    nodes = []
+    ordered = []
+    for node in node_list:
+        nodes.append({"id": node.id, "link": node.link, "year": node.year})
+        ordered.append(node.id)
+    return nodes, ordered
 
 def _extract_edges_from_graph(graph):
     return [{"source": parent.id, "target": child.id} for parent in graph for child in graph[parent]]
-
-def _extract_titles_from_node_list(node_list):
-    return [node.id for node in node_list]
 
 
 

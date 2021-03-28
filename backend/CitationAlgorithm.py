@@ -9,7 +9,7 @@ def create_dependency_graph(root_node, citations, finder):
     citation_stack = queue.Queue()
     for citation in _append_parent_to_citations(root_node, citations):
         citation_stack.put(citation)
-    max_iters = 15
+    max_iters = 10
     curr_iter = 1
     while not citation_stack.empty() and curr_iter <= max_iters:
         curr_citation, curr_parent = citation_stack.get()

@@ -30,6 +30,6 @@ class ArxivScraper(Scraper):
 
 if __name__ == '__main__':
     class Mock:
-        def get_title():
+        def get_title(self):
             return 'Communicating Sequential Processes'
     print(ArxivScraper().findPaper(Mock()))

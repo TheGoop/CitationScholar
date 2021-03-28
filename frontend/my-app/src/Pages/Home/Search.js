@@ -61,11 +61,11 @@ const Search = () => {
         }
 
         if (loading === "wait"){
-            // FETCH LINK HERE
+            // FETCH LINK HERE ALONG WITH DATA
             console.log(NEWGET)
             makePost()
             setTimeout(function(){ setLoading("finished"); }, 2000);
-
+            ///TIMEOUT TEST
         }
     }, [loading])
 

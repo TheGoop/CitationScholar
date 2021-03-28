@@ -1,4 +1,4 @@
-from pdf_scraper import PDF
+from backend.pdf_scraper import PDF
 import requests, json
 
 

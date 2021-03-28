@@ -1,7 +1,7 @@
 import queue
 from graphlib import TopologicalSorter
-from PaperNode import PaperNode
-from citation_scraper import CitationExtractor
+from backend.PaperNode import PaperNode
+from backend.citation_scraper import CitationExtractor
 
 def create_dependency_graph(root_node, citations, finder):
     graph = {root_node: set()}

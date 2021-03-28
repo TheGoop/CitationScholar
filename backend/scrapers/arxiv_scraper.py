@@ -1,7 +1,7 @@
 import graphlib
 import feedparser
 
-from interface.scraper import Scraper
+from backend.scrapers.interface.scraper import Scraper
 
 class ArxivScraper(Scraper):
     def __init__(self):

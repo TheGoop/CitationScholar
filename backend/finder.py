@@ -1,4 +1,4 @@
-from scrapers import *
+from backend.scrapers import *
 
 class Finder():
     def __init__(self, scrapers):

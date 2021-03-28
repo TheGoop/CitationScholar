@@ -1,5 +1,6 @@
 import graphlib
 import feedparser
+import urllib.parse
 
 from backend.scrapers.interface.scraper import Scraper
 
@@ -9,7 +10,8 @@ class ArxivScraper(Scraper):
 
     def findPaper(self, citation):
         url = ('http://export.arxiv.org/api/query?'
-                + 'search_query=' + citation.get_title().replace(" ", "")
+                + 'search_query='
+                + urllib.parse.quote(citation.get_title())
                 + '&start=0&max_results=10')
         papers = feedparser.parse(url).entries
 
@@ -27,4 +29,7 @@ class ArxivScraper(Scraper):
 
 
 if __name__ == '__main__':
-    print(ArxivScraper().findPaper('Electron'))
+    class Mock:
+        def get_title(self):
+            return 'Communicating Sequential Processes'
+    print(ArxivScraper().findPaper(Mock()))

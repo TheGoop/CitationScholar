@@ -1,6 +1,6 @@
 import queue
 from graphlib import TopologicalSorter
-from backend import PaperNode
+from PaperNode import PaperNode
 
 def create_dependency_graph(root_node, citations, finder, extractor):
     graph = {root_node: set()}
@@ -35,3 +35,27 @@ def create_dependency_graph(root_node, citations, finder, extractor):
 
 def _append_parent_to_citations(parent, citations):
     return [(citation, parent) for citation in citations]
+
+if __name__ == "__main__":
+    class DummyFinder:
+        def findPaper(self, citation):
+            return 'link:' + str(citation)
+
+    class DummyExtractor:
+        citation_map = {1: [2,5], 2: [3,4], 3: [], 4: [], 5: [4,6], 6: [7], 7: [4]}
+        def extract_citation(self, link):
+            paperNum = int(link[-1])
+            return self.citation_map[paperNum], hash(paperNum)
+
+    root_node = PaperNode(1, hash(1))
+    citations = [2, 5]
+    finder = DummyFinder()
+    extractor = DummyExtractor()
+    ordered_list, graph = create_dependency_graph(root_node, citations, finder, extractor)
+    print(ordered_list)
+    display_graph = {}
+    for key in graph:
+        display_graph[key.citation] = set()
+        for item in graph[key]:
+            display_graph[key.citation].add(item.citation)
+    print(display_graph)

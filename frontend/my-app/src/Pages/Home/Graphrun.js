@@ -6,23 +6,23 @@ const RED = "#e9382e";
 
 function shadeColor(color, percent) {
 
-    var R = parseInt(color.substring(1,3),16);
-    var G = parseInt(color.substring(3,5),16);
-    var B = parseInt(color.substring(5,7),16);
+    var R = parseInt(color.substring(1, 3), 16);
+    var G = parseInt(color.substring(3, 5), 16);
+    var B = parseInt(color.substring(5, 7), 16);
 
     R = parseInt(R * (100 + percent) / 100);
     G = parseInt(G * (100 + percent) / 100);
     B = parseInt(B * (100 + percent) / 100);
 
-    R = (R<255)?R:255;  
-    G = (G<255)?G:255;  
-    B = (B<255)?B:255;  
+    R = (R < 255) ? R : 255;
+    G = (G < 255) ? G : 255;
+    B = (B < 255) ? B : 255;
 
-    var RR = ((R.toString(16).length==1)?"0"+R.toString(16):R.toString(16));
-    var GG = ((G.toString(16).length==1)?"0"+G.toString(16):G.toString(16));
-    var BB = ((B.toString(16).length==1)?"0"+B.toString(16):B.toString(16));
+    var RR = ((R.toString(16).length == 1) ? "0" + R.toString(16) : R.toString(16));
+    var GG = ((G.toString(16).length == 1) ? "0" + G.toString(16) : G.toString(16));
+    var BB = ((B.toString(16).length == 1) ? "0" + B.toString(16) : B.toString(16));
 
-    return "#"+RR+GG+BB;
+    return "#" + RR + GG + BB;
 }
 
 export function runForceGraph(container, data) {
@@ -39,7 +39,7 @@ export function runForceGraph(container, data) {
         .force("charge", d3.forceManyBody().strength(-800));
 
     const color = (d) => {
-        if (d.id === "Root"){
+        if (d.id === "Queried Paper") {
             return RED
         }
         return shadeColor(BLUE, (2020 - d.year) * -3.25);
@@ -104,20 +104,20 @@ export function runForceGraph(container, data) {
             .style("font", "16px Roboto")
             .attr('x', 16)
             .attr('y', 6)
-            .style('fill','#000000');
+            .style('fill', '#000000');
     }
 
     function mouseout() {
         let data = d3.select(this).datum();
-        if (data.id === "Root"){
+        if (data.id === "Queried Paper") {
             d3.select(this).select("circle").transition()
-            .attr("r", 5)
-            .style("fill", RED);
+                .attr("r", 5)
+                .style("fill", RED);
         }
-        else{
-        d3.select(this).select("circle").transition()
-            .attr("r", 5)
-            .style("fill", shadeColor(BLUE, (2020 - data.year) * -3.25));
+        else {
+            d3.select(this).select("circle").transition()
+                .attr("r", 5)
+                .style("fill", shadeColor(BLUE, (2020 - data.year) * -3.25));
         }
         d3.select(this).select("text").transition()
             .style("font", "8px Roboto")

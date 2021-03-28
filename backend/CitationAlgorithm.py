@@ -9,7 +9,7 @@ def create_dependency_graph(root_node, citations, finder):
     citation_stack = queue.Queue()
     for citation in _append_parent_to_citations(root_node, citations):
         citation_stack.put(citation)
-    max_iters = 25
+    max_iters = 15
     curr_iter = 1
     while not citation_stack.empty() and curr_iter <= max_iters:
         curr_citation, curr_parent = citation_stack.get()
@@ -30,8 +30,11 @@ def create_dependency_graph(root_node, citations, finder):
         except ConnectionError:
             continue
 
-        curr_node = PaperNode(curr_citation.get_title(), citation_link,
-                              curr_citation.get_year(), pdf_hash)
+        try:
+            curr_node = PaperNode(curr_citation.get_title(), citation_link,
+                                  curr_citation.get_year(), pdf_hash)
+        except ValueError:
+            continue
         for citation in _append_parent_to_citations(curr_node, reference_list):
             citation_stack.put(citation)
 
